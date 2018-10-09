@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.dsys.exception.CommonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -53,6 +54,9 @@ public class JSONUtils {
 		} catch (Exception e) {
 			return null;
 		}
-
+	}
+	public static void testEmpty(String paramName,String value){
+		if(value==null&&value.length()==0)
+			throw new CommonException(FAIL,String.format("参数:%s不能为空",paramName));
 	}
 }

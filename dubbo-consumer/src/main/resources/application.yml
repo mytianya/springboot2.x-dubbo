@@ -3,7 +3,7 @@ spring:
     name: dubbo-consumer1
 server:
   port: 9091
-test:
+api:
   service:
     version: 1.0.0
 dubbo:

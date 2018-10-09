@@ -24,7 +24,7 @@ mybatis:
   type-aliases-package: com.dsys.dao
   mapperLocations: classpath:mapper/*.xml
 server:
-  port: 9090
+  port: 9095
 dubbo:
   registry:
     protocol: zookeeper
@@ -42,6 +42,6 @@ dubbo:
     qos-port: 22222
   scan:
     basePackages: com.dsys.provider
-test:
+api:
   service:
     version: 1.0.0
