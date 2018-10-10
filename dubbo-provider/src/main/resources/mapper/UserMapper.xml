@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dsys.dao.UserDao">
+
+	<insert id="register">
+		insert into tb_user(nickname,account,password,sex,status)
+		values (#{nickname},#{account},#{password},#{sex},0)
+	</insert>
+	<select id="login" parameterType="string" resultType="map">
+		select nickname,account,sex,status from tb_user where account=#{account} and password=#{password} limit 0,1
+	</select>
+	<select id="findUserByAccount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(id) from tb_user where account=#{account}
+	</select>
+</mapper>

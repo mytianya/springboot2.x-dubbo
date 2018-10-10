@@ -28,8 +28,8 @@ public class CommonException extends RuntimeException{
 		this.message = message;
 	}
 
-	public static enum ExceptionType{
-		SYS("sys","系统故障"),AUTH("auth","验证错误"),PARAM("param","参数错误"),NULL("null","空指针异常");
+	public static enum StatusCode {
+		SYS("sys","系统故障"),AUTH("auth","验证错误"),PARAM("param","参数错误"),NULL("null","空指针异常"),SUCCESS("0","成功"),FAIL("1","失敗");
 		private String code;
 		private String message;
 		public String getCode() {
@@ -38,6 +38,6 @@ public class CommonException extends RuntimeException{
 		public String getMessage() {
 			return this.message;
 		}
-		private ExceptionType(String code,String message) {this.code=code;this.message=message;}
+		private StatusCode(String code, String message) {this.code=code;this.message=message;}
 	}
 }
