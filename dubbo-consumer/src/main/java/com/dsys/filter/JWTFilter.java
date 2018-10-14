@@ -33,7 +33,7 @@ public class JWTFilter extends GenericFilterBean {
         if(auth!=null&&auth.length()>7){
             String token=auth.substring(0,6).toLowerCase();
             if(token.compareTo("bearer")==0){
-                token=token.substring(7,token.length());
+                token=auth.substring(7,token.length());
                 Claims claims=JwtHelper.parseJwt(token);
                 if(claims.get("account")!=null){
                     filterChain.doFilter(servletRequest,servletResponse);
