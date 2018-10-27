@@ -3,6 +3,10 @@ package com.dsys.utils;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import com.dsys.exception.CommonException;
@@ -12,6 +16,10 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 public class JSONUtils {
 	public static final String STATUS="status";
@@ -23,6 +31,11 @@ public class JSONUtils {
 	static {
 		DateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		mapper.setDateFormat(formatter);
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
+		javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
+		mapper.registerModule(javaTimeModule);
 		mapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>(){
 			public void serialize(Object value,JsonGenerator jg,SerializerProvider sp) throws IOException,JsonProcessingException{
 				jg.writeString("");
