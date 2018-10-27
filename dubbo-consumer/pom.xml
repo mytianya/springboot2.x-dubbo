@@ -51,6 +51,15 @@
             <version>0.10.5</version>
             <scope>runtime</scope>
         </dependency>
+        <!--分布式sessionId共享-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

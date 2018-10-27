@@ -1,6 +1,9 @@
 spring:
   application:
     name: dubbo-consumer1
+  redis:
+    host: 192.168.0.130
+    port: 6379
 server:
   port: 9091
 api:
@@ -12,7 +15,7 @@ dubbo:
     name: dubbo-consumer-name1
   registry:
     protocol: zookeeper
-    address: localhost:2181
+    address: 192.168.0.130:2181
     id: lin-registry-1
 management:
   endpoint:

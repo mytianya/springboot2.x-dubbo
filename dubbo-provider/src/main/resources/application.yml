@@ -1,8 +1,20 @@
 spring:
   application:
     name: dubbo-provider1
+  redis:
+    database: 0
+    host: 192.168.0.130
+    port: 6379
+    timeout: 2000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+    password:
   datasource:
-    url: jdbc:mysql://127.0.0.1/data?useSSL=false
+    url: jdbc:mysql://192.168.0.130/testDB?useSSL=false&userUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -21,14 +33,16 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
 mybatis:
-  type-aliases-package: com.dsys.dao
+  type-aliases-package: com.dsys.entity
   mapperLocations: classpath:mapper/*.xml
 server:
   port: 9095
+  session:
+    timeout: 30
 dubbo:
   registry:
     protocol: zookeeper
-    address: localhost:2181
+    address: 192.168.0.130:2181
     id: registry-1
   protocol:
     port: 12345

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dsys.dao.CardAreaDao">
-
-	<select id="findAreaByCardNo" parameterType="java.lang.String" resultType="java.util.HashMap">
-		select area,remark from tb_card_area where use_status=0 and cardno=#{cardNo} limit 0,1
-	</select>
-
-</mapper>

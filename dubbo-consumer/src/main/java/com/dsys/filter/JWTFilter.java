@@ -26,14 +26,14 @@ public class JWTFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest= (HttpServletRequest) servletRequest;
         String auth=httpServletRequest.getHeader("Authorization");
         String url = httpServletRequest.getRequestURI().substring(httpServletRequest.getContextPath().length());
-        if(url.startsWith("/user/login")||url.startsWith("/user/register")){
+        if(url.startsWith("/user/login")||url.startsWith("/user/register")||url.startsWith("/user/test")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
         if(auth!=null&&auth.length()>7){
             String token=auth.substring(0,6).toLowerCase();
             if(token.compareTo("bearer")==0){
-                token=auth.substring(7,auth.length());
+                token=auth.substring(6,auth.length());
                 Claims claims=JwtHelper.parseJwt(token);
                 if(claims.get("account")!=null){
                     filterChain.doFilter(servletRequest,servletResponse);

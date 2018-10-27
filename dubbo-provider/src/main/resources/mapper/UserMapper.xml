@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dsys.dao.UserDao">
-
-	<insert id="register">
-		insert into tb_user(nickname,account,password,sex,status)
-		values (#{nickname},#{account},#{password},#{sex},0)
-	</insert>
-	<select id="login" parameterType="string" resultType="map">
-		select nickname,account,sex,status from tb_user where account=#{account} and password=#{password} limit 0,1
-	</select>
-	<select id="findUserByAccount" parameterType="java.lang.String" resultType="java.lang.Integer">
-		select count(id) from tb_user where account=#{account}
-	</select>
+    <resultMap id="UserResultMap" type="com.dsys.entity.User">
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="name"/>
+        <result column="user_account" property="account"/>
+        <result column="user_status" property="status"/>
+    </resultMap>
+    <insert id="addUser" parameterType="com.dsys.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_user(user_name,user_account,user_create_time,user_last_login_time,user_password)
+        values(#{name},#{account},#{createTime},#{lastLoginTime},#{password})
+    </insert>
+    <select id="findUserByAccount" parameterType="java.lang.String" resultMap="UserResultMap">
+        select user_id,user_name,user_account from tb_user where user_account=#{account}
+    </select>
+    <select id="findUserByAccountAndPwd" resultMap="UserResultMap">
+        select user_id,user_name,user_account,user_status from tb_user where user_account=#{account} and user_password=#{password}
+    </select>
 </mapper>

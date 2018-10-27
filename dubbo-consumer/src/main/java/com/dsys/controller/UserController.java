@@ -1,15 +1,16 @@
 package com.dsys.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.dsys.comsumer.UserServiceComsumer;
 import com.dsys.exception.CommonException;
-import com.dsys.service.TestService;
 import com.dsys.service.UserService;
 import com.dsys.utils.JSONUtils;
 import com.dsys.utils.JwtHelper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,19 +21,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Reference(
-            version = "${api.service.version}",
-            application = "${dubbo.application.id}",
-            registry = "${dubbo.registry.id}"
-    )
-    private UserService userService;
+    @Autowired
+    private UserServiceComsumer userServiceComsumer;
     @PostMapping("/register")
-    public String register(String nickname,String password,String sex){
-        return userService.register(nickname,password,sex);
+    public String register(String nickname,String password){
+        return  userServiceComsumer.register(nickname,password);
     }
     @PostMapping("/login")
     public String login(String account,String password){
-        String login= userService.login(account,password);
+        String login= userServiceComsumer.login(account,password);
         Map<String,Object> loginMap=JSONUtils.json2Map(login);
         boolean isSuccess=loginMap.get(JSONUtils.STATUS).equals(CommonException.StatusCode.SUCCESS.getCode());
         if(isSuccess){
@@ -42,6 +39,19 @@ public class UserController {
         }else{
             return login;
         }
-
+    }
+    @PostMapping("/loginSession")
+    public String loginSession(HttpServletRequest request){
+        String account=request.getParameter("account");
+        String password=request.getParameter("password");
+        String login=userServiceComsumer.login(account,password);
+        Map<String,Object> loginMap=JSONUtils.json2Map(login);
+        boolean isSuccess=loginMap.get(JSONUtils.STATUS).equals(CommonException.StatusCode.SUCCESS.getCode());
+        if(isSuccess){
+            request.getSession().setAttribute(account,loginMap);
+            return JSONUtils.map2Json(loginMap);
+        }else{
+            return login;
+        }
     }
 }
